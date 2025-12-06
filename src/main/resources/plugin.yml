@@ -1,0 +1,12 @@
+name: ParkourPlugin
+version: 1.0
+main: com.parkour.plugin.ParkourPlugin
+api-version: 1.21
+author: YourName
+description: Sky parkour plugin with GUI and rewards
+
+commands:
+  pk:
+    description: Parkour commands
+    usage: /pk <start|stop|leaderboard>
+    aliases: [parkour]
