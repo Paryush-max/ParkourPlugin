@@ -2,35 +2,35 @@ name: Build Plugin
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Build with Maven
-      run: mvn clean package
+      - name: Build with Maven
+        run: mvn -B clean package
 
-    - name: Upload Plugin
-  uses: actions/upload-artifact@v4
-  with:
-    name: ParkourPlugin
-    path: target/*.jar
+      - name: Check target directory
+        run: |
+          echo "Files in target:"
+          ls -R target || echo "No target folder found"
 
-    
-    - name: Upload Plugin
-      uses: actions/upload-artifact@v4
-      with:
-        name: ParkourPlugin
-        path: target/ParkourPlugin.jar
+      - name: Upload built jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-jar
+          path: |
+            target/*.jar
